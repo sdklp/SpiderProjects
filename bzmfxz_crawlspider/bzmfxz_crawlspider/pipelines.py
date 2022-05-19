@@ -6,6 +6,14 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from bzmfxz_crawlspider.items import BzmfxzCrawlspiderItem
+from scrapy.pipelines.files import FilesPipeline
+
+class MyCrawlspiderPipeline(FilesPipeline):
+    def file_path(self, request, response=None, info=None, *, item=None):
+        return item.get('Title')+'.rar'
+
+
 
 
 class BzmfxzCrawlspiderPipeline:

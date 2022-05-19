@@ -9,4 +9,7 @@ import scrapy
 class BzmfxzCrawlspiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    Title=scrapy.Field()
+    file_urls=scrapy.Field()
+    files=scrapy.Field()
+
