@@ -1,0 +1,39 @@
+2022-05-19 17:27:09 [scrapy.utils.log] INFO: Scrapy 2.6.1 started (bot: bzmfxz_crawlspider)
+2022-05-19 17:27:09 [scrapy.utils.log] INFO: Versions: lxml 4.8.0.0, libxml2 2.9.12, cssselect 1.1.0, parsel 1.6.0, w3lib 1.22.0, Twisted 22.4.0, Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:34:34) [MSC v.1928 32 bit (Intel)], pyOpenSSL 22.0.0 (OpenSSL 3.0.3 3 May 2022), cryptography 37.0.2, Platform Windows-10-10.0.17763-SP0
+2022-05-19 17:27:09 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'bzmfxz_crawlspider',
+ 'DOWNLOAD_DELAY': 1,
+ 'LOG_FILE': 'log/scrapy_2022_5_19.log',
+ 'NEWSPIDER_MODULE': 'bzmfxz_crawlspider.spiders',
+ 'SPIDER_MODULES': ['bzmfxz_crawlspider.spiders']}
+2022-05-19 17:27:09 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.selectreactor.SelectReactor
+2022-05-19 17:27:09 [scrapy.extensions.telnet] INFO: Telnet Password: 0c785543abc1c4ba
+2022-05-19 17:27:09 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2022-05-19 17:27:10 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'bzmfxz_crawlspider.middlewares.MyCrawlspiderSpiderMiddleware',
+ 'bzmfxz_crawlspider.middlewares.CheckUserAgent',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2022-05-19 17:27:10 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2022-05-19 17:27:10 [scrapy.middleware] INFO: Enabled item pipelines:
+['bzmfxz_crawlspider.pipelines.MyCrawlspiderPipeline']
+2022-05-19 17:27:10 [scrapy.core.engine] INFO: Spider opened
+2022-05-19 17:27:11 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2022-05-19 17:27:11 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023

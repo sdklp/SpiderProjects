@@ -17,8 +17,9 @@ ITEM_PIPELINES = {
 FILES_STORE='download'
 
 LOG_LEVEL = 'DEBUG'
-#
-LOG_FILE = 'log/log.log'
+to_day = datetime.datetime.now()
+log_file_path = 'log/scrapy_{}_{}_{}.log'.format(to_day.year, to_day.month, to_day.day)
+LOG_FILE = log_file_path
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bzmfxz_crawlspider (+http://www.yourdomain.com)'
 
