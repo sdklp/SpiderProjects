@@ -1,6 +1,7 @@
 import os
 from PyPDF2 import PdfFileReader, PdfFileWriter
 import time
+# from PyPDF4 import PdfFileReader,PdfFileWriter
 
 
 # 使用os模块的walk函数，搜索出指定目录下的全部PDF文件

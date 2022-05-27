@@ -1,85 +1,84 @@
-import os
-import shutil
-
-from PyPDF2 import PdfFileReader, PdfFileWriter
-import time
-
-
-def merge_pdf(filedir, outfn):
-    """
-    合并pdf
-    :param infnList: 要合并的PDF文件路径列表
-    :param outfn: 保存的PDF文件名
-    :return: None
-    """
-    pagenum = 0
-    pdf_output = PdfFileWriter()
-    infnList=getFileName(filedir)
-    print(infnList)
-    for pdf in infnList:
-        # 先合并一级目录的内容
-        first_level_title = pdf['title']
-        dir_name = os.path.join(os.path.dirname(
-            __file__), 'gen', first_level_title)
-        padf_path = os.path.join(dir_name, first_level_title + '.pdf')
-
-        pdf_input = PdfFileReader(open(padf_path, 'rb'))
-        # 获取 pdf 共用多少页
-        page_count = pdf_input.getNumPages()
-        for i in range(page_count):
-            pdf_output.addPage(pdf_input.getPage(i))
-
-        # 添加书签
-        parent_bookmark = pdf_output.addBookmark(
-            first_level_title, pagenum=pagenum)
-
-        # 页数增加
-        pagenum += page_count
-
-        # 存在子章节
-        if pdf['child_chapters']:
-            for child in pdf['child_chapters']:
-                second_level_title = child['title']
-                padf_path = os.path.join(dir_name, second_level_title + '.pdf')
-
-                pdf_input = PdfFileReader(open(padf_path, 'rb'))
-                # 获取 pdf 共用多少页
-                page_count = pdf_input.getNumPages()
-                for i in range(page_count):
-                    pdf_output.addPage(pdf_input.getPage(i))
-
-                # 添加书签
-                pdf_output.addBookmark(
-                    second_level_title, pagenum=pagenum, parent=parent_bookmark)
-                # 增加页数
-                pagenum += page_count
-
-    # 合并
-    pdf_output.write(open(outfn, 'wb'))
-    # 删除所有章节文件
-    shutil.rmtree(os.path.join(os.path.dirname(__file__), 'gen'))
-
-def getFileName(filedir):
-    file_list = [os.path.join(root, filespath) \
-                 for root, dirs, files in os.walk(filedir) \
-                 for filespath in files \
-                 if str(filespath).endswith('pdf')
-                 ]
-    return file_list if file_list else []
-
-def main():
-    time1 = time.time()
-    # file_dir = r'E:\my_projects\python_projects\my tool packages\MergePDF'      # 存放PDF的原文件夹
-    # file_dir = r'E:\my_projects\python_projects\my tool packages\MergePDF\paper'  # 存放PDF的原文件夹
-    # file_dir = r'E:\my_projects\python_projects\my tool packages\MergePDF\reward'  # 存放PDF的原文件夹
-    # file_dir = r'E:\my_projects\python_projects\my tool packages\MergePDF\xx'  # 存放PDF的原文件夹
-    file_dir = r'D:\SpiderProjects\htmltopdfmedo\gen'
-    # outfile = "works2xx.pdf" # 输出的PDF文件的名称
-    # outfile = "reward2xx.pdf"  # 输出的PDF文件的名称
-    outfile = "test.pdf"  # 输出的PDF文件的名称
-    merge_pdf(file_dir, outfile)
-    time2 = time.time()
-    print('总共耗时：%s s.' % (time2 - time1))
+'''
+   本脚本用来合并pdf文件，支持带一级子目录的
+   每章内容分别放在不同的目录下，目录名为章节名
+   最终生成的pdf，按章节名生成书签
+'''
 
 
-main()
+import os, sys, codecs
+# from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger
+import glob
+from PyPDF4 import PdfFileReader, PdfFileWriter, PdfFileMerger
+
+
+def getFileName(filepath):
+    '''
+        获取当前目录下的所有pdf文件
+    '''
+    file_list = glob.glob(filepath+"/*.pdf")
+    # 默认安装字典序排序，也可以安装自定义的方式排序
+    # file_list.sort()
+    return file_list
+
+
+def get_dirs(filepath='', dirlist_out=[], dirpathlist_out=[]):
+    # 遍历filepath下的所有目录
+    for dir in os.listdir(filepath):
+        dirpathlist_out.append(filepath + '\\' + dir)
+
+    return dirpathlist_out
+
+
+def merge_childdir_files(path):
+    '''
+        每个子目录下合并生成一个pdf
+    '''
+    dirpathlist = get_dirs(path)
+    if len(dirpathlist) == 0:
+        print("当前目录不存在子目录")
+        sys.exit()
+    for dir in dirpathlist:
+        mergefiles(dir, dir)
+
+
+def mergefiles(path, output_filename, import_bookmarks=False):
+    # 遍历目录下的所有pdf将其合并输出到一个pdf文件中，输出的pdf文件默认带书签，书签名为之前的文件名
+    # 默认情况下原始文件的书签不会导入，使用import_bookmarks=True可以将原文件所带的书签也导入到输出的pdf文件中
+    merger = PdfFileMerger()
+    filelist = getFileName(path)
+    if len(filelist) == 0:
+        print("当前目录及子目录下不存在pdf文件")
+        sys.exit()
+    for filename in filelist:
+        f = codecs.open(filename, 'rb')
+        file_rd = PdfFileReader(f)
+        short_filename = os.path.basename(os.path.splitext(filename)[0])
+        if file_rd.isEncrypted == True:
+            print('不支持的加密文件：%s'%(filename))
+            continue
+
+        merger.append(file_rd, bookmark=short_filename, import_bookmarks=import_bookmarks)
+
+
+        print('合并文件：%s'%(filename))
+        f.close()
+    # out_filename = os.path.join(os.path.abspath(path), output_filename)
+    merger.write(output_filename + ".pdf")
+    print('合并后的输出文件：%s'%(output_filename))
+    merger.close()
+
+if __name__ == "__main__":
+    # 每个章节一个子目录，先分别合并每个子目录文件为一个pdf，然后再将这些pdf合并为一个大的pdf，这样做目的是想生成每个章节的书签
+
+    # 1.指定目录
+    # 原始pdf所在目录
+    path = r"D:\SpiderProjects\htmltopdfmedo\gen"
+    #_path = r"D:\学习资源\微信公共号\xx公共号\cs"
+    # 输出pdf路径和文件名
+    output_filename = r"D:\SpiderProjects\html"
+
+    # 2.生成子目录的pdf
+    merge_childdir_files(path)
+
+    # 3.子目录pdf合并为总的pdf
+    mergefiles(path, output_filename,True)

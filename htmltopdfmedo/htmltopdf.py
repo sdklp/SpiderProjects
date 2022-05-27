@@ -1,9 +1,12 @@
 # coding=utf-8
 import os
+import shutil
+
 import pdfkit
 import requests
 from bs4 import BeautifulSoup
 from PyPDF2 import PdfFileMerger
+from PyPDF4 import PdfFileReader,PdfFileWriter
 
 
 base_url = 'http://python3-cookbook.readthedocs.io/zh_CN/latest/'
@@ -130,6 +133,7 @@ def parse_html_to_pdf():
                     pdf_path = os.path.join(dir_name, child['title'] + '.pdf')
                     save_pdf(html, pdf_path)
 
+
     except Exception as e:
         print(e)
 
@@ -192,16 +196,24 @@ def merge_pdf(infnList, outfn):
     shutil.rmtree(os.path.join(os.path.dirname(__file__), 'gen'))
 
 
+
 if __name__=="__main__":
-    html=requests.get(base_url).content.decode()
-    parse_title_and_url(html)
-    parse_html_to_pdf()
+    # html=requests.get(base_url).content.decode()
+    # parse_title_and_url(html)
+    # parse_html_to_pdf()
+
+    DIR = "gen/"
+    OUTPUT = "output.pdf"
+    merger = PdfFileMerger(strict=False)
+    file_list = filter(lambda f: f.endswith('.pdf'),merger)
 
 
+    for f_name in file_list:
+        f = open(os.path.join(DIR, f_name), "rb")
+    merger.append(f)
+
+    output = open(OUTPUT, "wb")
+    merger.write(output)
 
 
-    # for info in chapter_info:
-    #     # print(info)
-    #     if not info['child_chapters']:
-    #         print(info['title'])
 
