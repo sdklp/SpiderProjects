@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a287508-31bf-4275-854e-13b0d69f5d6a" name="Default Changelist" comment="Default Changelist">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/.idea/dictionaries" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/.idea/test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/os_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/htmltopdfmedo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/htmltopdfmedo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/htmltopdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/htmltopdf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mergePdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/mergePdf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mergePdf2.py" beforeDir="false" afterPath="$PROJECT_DIR$/mergePdf2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +73,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../htmltopdf" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.mergePdf2">

@@ -6,14 +6,14 @@ import pdfkit
 import requests
 from bs4 import BeautifulSoup
 from PyPDF2 import PdfFileMerger
-from PyPDF4 import PdfFileReader,PdfFileWriter
-
+from PyPDF4 import PdfFileReader, PdfFileWriter
 
 base_url = 'http://python3-cookbook.readthedocs.io/zh_CN/latest/'
 book_name = ''
 chapter_info = []
 
-#获取目录及对应网址
+
+# 获取目录及对应网址
 def parse_title_and_url(html):
     """
     解析全部章节的标题和url
@@ -51,8 +51,7 @@ def parse_title_and_url(html):
         chapter_info.append(info)
 
 
-
-#获取章节内容
+# 获取章节内容
 html_template = """
 <!DOCTYPE html>
 <html lang="en">
@@ -64,8 +63,11 @@ html_template = """
 </body>
 </html>
 """
+
+
 def get_one_page(url):
     return requests.get(url).content.decode()
+
 
 def get_content(url):
     """
@@ -80,7 +82,8 @@ def get_content(url):
     html = html_template.format(content=content)
     return html
 
-#保存PDF
+
+# 保存PDF
 def save_pdf(html, filename):
     """
     把所有html文件保存到pdf文件
@@ -105,7 +108,8 @@ def save_pdf(html, filename):
         'outline-depth': 10,
     }
     config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-    pdfkit.from_string(html, filename, options=options,configuration=config)
+    pdfkit.from_string(html, filename, options=options, configuration=config)
+
 
 def parse_html_to_pdf():
     """
@@ -137,7 +141,8 @@ def parse_html_to_pdf():
     except Exception as e:
         print(e)
 
-#合并PDF
+
+# 合并PDF
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 
@@ -150,7 +155,6 @@ def merge_pdf(infnList, outfn):
     """
     pagenum = 0
     pdf_output = PdfFileWriter()
-
 
     for pdf in infnList:
         # 先合并一级目录的内容
@@ -196,24 +200,10 @@ def merge_pdf(infnList, outfn):
     shutil.rmtree(os.path.join(os.path.dirname(__file__), 'gen'))
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     # html=requests.get(base_url).content.decode()
     # parse_title_and_url(html)
     # parse_html_to_pdf()
-
-    DIR = "gen/"
-    OUTPUT = "output.pdf"
-    merger = PdfFileMerger(strict=False)
-    file_list = filter(lambda f: f.endswith('.pdf'),merger)
-
-
-    for f_name in file_list:
-        f = open(os.path.join(DIR, f_name), "rb")
-    merger.append(f)
-
-    output = open(OUTPUT, "wb")
-    merger.write(output)
-
-
-
+    infnList = os.listdir(r'D:\SpiderProjects\htmltopdfmedo\gen')
+    outfn = r'D:\SpiderProjects\htmltopdfmedo.pdf'
+    merge_pdf(infnList, outfn)
